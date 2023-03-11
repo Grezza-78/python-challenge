@@ -6,9 +6,13 @@ election_data_csv = os.path.join(".", "Resources", "election_data.csv")
 
 #  List of stored data
 Vote_Count = []
-CCS_Votes = []
-DG_Votes = []
-RAD_Votes = []
+Can1_Votes = []
+Can2_Votes = []
+Can3_Votes = []
+
+Candidate1 = "Charles Casper Stockham"
+Candidate2 = "Diana DeGette"
+Candidate3 = "Raymon Anthony Doane"
 
 # Establishing a variable to help calculate votes from the csv file
 Total_votes = 0
@@ -27,27 +31,27 @@ with open(election_data_csv) as csvfile:
         Vote_Count.append(row[0])
 
         # if conditional check to allocate votes for each candidate based on the row
-        if row[2] == "Charles Casper Stockham":
-            CCS_Votes.append(row[0]) 
+        if row[2] == Candidate1:
+            Can1_Votes.append(row[0]) 
 
-        elif row[2] == "Diana DeGette":
-            DG_Votes.append(row[0])
+        elif row[2] == Candidate2:
+            Can2_Votes.append(row[0])
         
-        elif row[2] == "Raymon Anthony Doane":
-            RAD_Votes.append(row[0])
+        elif row[2] == Candidate3:
+            Can3_Votes.append(row[0])
 
 
 # Counts the number of values in each list
 Total_vote = (len(Vote_Count))
-CCS_count = (len(CCS_Votes))
-DG_count = (len(DG_Votes))
-RAD_count = (len(RAD_Votes))
+Can1_count = (len(Can1_Votes))
+Can2_count = (len(Can2_Votes))
+Can3_count = (len(Can3_Votes))
 
 
 # Calcualtes the percentage of vote each candidate received
-CCS_Percent = CCS_count/Total_vote
-DG_Percent = DG_count/Total_vote
-RAD_Percent = RAD_count/Total_vote
+Can1_Percent = Can1_count/Total_vote
+Can2_Percent = Can2_count/Total_vote
+Can3_Percent = Can3_count/Total_vote
 
 
 # Prints the outputs from module to the screen
@@ -56,20 +60,20 @@ print("Election Results\n")
 print("------------------------------------------\n")
 print(f"Total Votes: {Total_vote}\n")
 print("------------------------------------------\n")
-print(f"Charles Casper Stockham: {CCS_Percent:.3%} ({CCS_count})\n")
-print(f"Diana Degette: {DG_Percent:.3%} ({DG_count})\n")
-print(f"Raymon Anthony Doane {RAD_Percent:.3%} ({RAD_count})\n")
+print(f"{Candidate1}: {Can1_Percent:.3%} ({Can1_count})\n")
+print(f"{Candidate2}: {Can2_Percent:.3%} ({Can2_count})\n")
+print(f"{Candidate3}: {Can3_Percent:.3%} ({Can3_count})\n")
 print("------------------------------------------\n")
 
 # Applies 'if and' conditional to identify the winner and print it to the screen
-if CCS_Percent > DG_Percent and CCS_Percent > RAD_Percent:
-    print("Winner: Charles Casper Stockham\n")
+if Can1_Percent > Can2_Percent and Can1_Percent > Can3_Percent:
+    print(f"Winner: {Candidate1}\n")
 
-elif DG_Percent > CCS_Percent and DG_Percent > RAD_Percent:
-    print("Winner: Diana Degette\n")
+elif Can2_Percent > Can1_Percent and Can2_Percent > Can3_Percent:
+    print(f"Winner: {Candidate2}\n")
 
-elif RAD_Percent > CCS_Percent and RAD_Percent > DG_Percent:
-    print("Winner: Raymon Anthony Doane\n")
+elif Can3_Percent > Can1_Percent and Can3_Percent > Can2_Percent:
+    print(f"Winner: {Candidate3}\n")
 print("------------------------------------------\n")
 
 
@@ -88,24 +92,24 @@ with open(output_file, "w") as datafile:
     datafile.writelines("\n")
     datafile.writelines("------------------------------------------\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Charles Casper Stockham: {CCS_Percent:.3%} ({CCS_count})\n")
+    datafile.writelines(f"{Candidate1}: {Can1_Percent:.3%} ({Can1_count})\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Diana DeGette: {DG_Percent:.3%} ({DG_count})\n")
+    datafile.writelines(f"{Candidate2}: {Can2_Percent:.3%} ({Can2_count})\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Raymon Anthony Doane: {RAD_Percent:.3%} ({RAD_count})\n")
+    datafile.writelines(f"{Candidate3}: {Can3_Percent:.3%} ({Can3_count})\n")
     datafile.writelines("\n")
     datafile.writelines("------------------------------------------\n")
     datafile.writelines("\n")
 
     # Applies 'if and' conditional to identify the winner and writes it to the txt file
-    if CCS_Percent > DG_Percent and CCS_Percent > RAD_Percent:
-        datafile.writelines("Winner: Charles Casper Stockham\n")
+    if Can1_Percent > Can2_Percent and Can1_Percent > Can3_Percent:
+        datafile.writelines(f"Winner: {Candidate1}\n")
 
-    elif DG_Percent > CCS_Percent and DG_Percent > RAD_Percent:
-        datafile.writelines("Winner: Diana Degette\n")
+    elif Can2_Percent > Can1_Percent and Can2_Percent > Can3_Percent:
+        datafile.writelines(f"Winner: {Candidate2}\n")
 
-    elif RAD_Percent > CCS_Percent and RAD_Percent > DG_Percent:
-        datafile.writelines("Winner: Raymon Anthony Doane\n")
+    elif Can3_Percent > Can1_Percent and Can3_Percent > Can2_Percent:
+        datafile.writelines(f"Winner: {Candidate3}\n")
     datafile.writelines("\n")
     datafile.writelines("------------------------------------------\n")
     datafile.writelines("\n")
