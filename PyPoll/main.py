@@ -10,6 +10,7 @@ Can1_Votes = []
 Can2_Votes = []
 Can3_Votes = []
 
+# Establishing variables so this can be updated with user input in the future
 Candidate1 = "Charles Casper Stockham"
 Candidate2 = "Diana DeGette"
 Candidate3 = "Raymon Anthony Doane"
