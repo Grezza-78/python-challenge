@@ -1,97 +1,118 @@
 import os
 import csv
 
+# Set path for file
 budget_data_csv = os.path.join(".", "Resources", "budget_data.csv")
 
-#  List of store data
-dates = []
-profit_loss = []
 
-# Establishing a sum variable to calculate Total Profit/Loss from the csv file
-sum = 0
-max_value = 0
-max_index = 0
-min_value = 0
-min_index = 0
+#  List of stored data
+Current_dates = []
+Current_month_PL = []
+PL_movement = []
+PL_Max_amount = []
+PL_Min_amount = []
+PL_Max_date = []
+PL_Min_date = []
 
-# with open(work_csv, encoding='utf-8') as csvfile:
+
+# Establishing variables to help calculate Total Profit/Loss from the csv file
+Total_PL = 0
+Open_PL = 0
+PL_month_movement = 0
+OpenMaxValue = 0
+OpenMinValue = 0
+Total_PL_movement = 0
+
+# with open(budget_data_csv, encoding='utf-8') as csvfile:
 with open(budget_data_csv) as csvfile:
     csvreader = csv.reader(csvfile, delimiter = ",")
-
-    # Skip the header of the csv file   
+    
+    # Skips the Header row
     next(csvreader)
-
+ 
     for row in csvreader:
         # Adds the dates
-        dates.append(row[0])
+        Current_dates.append(row[0])
         
         # Adds the Profit/Loss values
-        profit_loss.append(row[1])
-        
+        Current_month_PL.append(row[1])
+
         # Calculates the Profit/Loss total through each loop
-        sum = sum + (int(float(row[1])))
-
-        if int(float(profit_loss(row[1]))) > max_value:
-            max_value = int(float(row[1])) 
-            max_index = row[1]
-            print(max_value)
-            print(max_index)
-
-"""# Confirms the total number of months
-count = (len(dates))
-
-# Uses the Profit/Loss Open and Closing Value for the period from the set 
-# and then devides by the number of months to calcualte the average change 
-# for the period
-open_PL_value = profit_loss[0]
-close_PL_value = profit_loss[-1]
-PL_year = ((int(close_PL_value) - (int(open_PL_value))) / int(count))
-average_PL = (round(float(PL_year), 2))
-
-# Using the max function to identify the biggest value in the PL list
-max_value = (max(profit_loss))
-
-# Identifies the position of the max value within the PL list
-max_index = profit_loss.index(max_value)
-
-# Using max_value position identified to identify the position with in the Dates list
-date_max = dates[max_index]
-
-# Using the min function to identify the biggest value in the PL list
-min_value = (min(profit_loss))
-
-# Identifies the position of the min value within the PL list
-min_index = profit_loss.index(min_value)
-
-# Using min value position identified to identify the position with in the Dates list
-date_min = dates[min_index]
+        Total_PL = Total_PL + int(float(row[1]))
 
 
+# Uses a 'for loop' to calcaulates the PL movements between the various months and then saves it to a list 
+for i in Current_month_PL:
+    PL_month_movement = int(i) - Open_PL
+    PL_movement.append(int(PL_month_movement))
+    Open_PL = int(i)
+    Total_PL_movement = Total_PL_movement + PL_month_movement
 
+
+#Confirms the total number of months
+count_of_dates = (len(Current_dates))
+
+
+#Confirms the total number of months for Profit movements
+Average_PL_dates = (len(Current_dates)) - 1
+
+
+#Identifies the Biggest Profit in the Profit/Loss movement
+max_value = max(PL_movement)
+
+
+#Identifies the position of the Biggest Profit in the list
+max_index = PL_movement.index(max_value)
+
+
+#Identifies the position of the date relative for Biggest Profit value
+PL_Max_date = Current_dates[max_index]
+
+
+#Identifies the biggest Loss in the Profit/Loss movement
+min_value = min(PL_movement)
+
+
+#Identifies the position of the Biggest Loss in the list 
+min_index = PL_movement.index(min_value)
+
+
+#Identifies the position of the date relative for Biggest Loss value
+PL_Min_date = Current_dates[min_index]
+
+
+#Calulates the average Profit Loss over the period
+Total_PL_movement_Average = round((Total_PL_movement - int(Current_month_PL[0])) /Average_PL_dates, 2)
+
+
+# Prints the outputs from script to the screen
 print("\n")
 print("Financial Analysis\n")
 print("------------------------------------------\n")
-print (f"Total Months: {count}\n")
-print(f"Total: ${sum}\n")
-print(f"Average Change: ${average_PL}\n")
-print(f"Greatest Increase in Profits: {date_max} ${max_value} \n")
-print(f"Greatest Decrease in Profits: {date_min} (${min_value}) \n")
+print (f"Total Months: {count_of_dates}\n")
+print(f"Total: ${Total_PL}\n")
+print(f"Average Change: ${Total_PL_movement_Average}\n")
+print(f"Greatest Increase in Profits: {PL_Max_date} ${max_value} \n")
+print(f"Greatest Decrease in Profits: {PL_Min_date} (${min_value}) \n")
 
 
+# Sets the output file path
 output_file = os.path.join(".", "analysis","analysis.txt")
 
+
+# Writes the outputs from script to a txt file
 with open(output_file, "w") as datafile:
     datafile.writelines("\n")
     datafile.writelines("Financial Analysis\n")
     datafile.writelines("\n")
     datafile.writelines("------------------------------------------\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Total Months: {count}\n")
+    datafile.writelines(f"Total Months: {count_of_dates}\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Total: ${sum}\n")
+    datafile.writelines(f"Total: ${Total_PL}\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Average Change: ${average_PL}\n")
+    datafile.writelines(f"Average Change: ${Total_PL_movement_Average}\n")
     datafile.writelines("\n")
-    datafile.writelines(f"Greatest Increase in Profits: {date_max} ${max_value} \n")
+    datafile.writelines(f"Greatest Increase in Profits: {PL_Max_date} ${max_value} \n")
     datafile.writelines("\n")
-    datafile.writelines(f"Greatest Decrease in Profits: {date_min} (${min_value}) \n")"""
+    datafile.writelines(f"Greatest Decrease in Profits: {PL_Min_date} (${min_value}) \n")
